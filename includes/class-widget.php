@@ -1,39 +1,37 @@
 <?php
 
-/* Keurmerken Widget Class
+/* EJO Simple Testimonials Widget Class
 --------------------------------------------- */
-class Keurmerken_Widget extends WP_Widget {
+class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 	//* Holds widget settings defaults, populated in constructor.
 	protected $defaults;
 
+	private $slug;
+
 	//* Constructor. Set the default widget options and create widget.
 	function __construct() 
 	{
-		$this->defaults = array(
-			'title'                   => 'Keurmerken Widget',
-		);
+		$widget_title = __( 'Simple Testimonials', EJO_Simple_Testimonials::$slug );
 
 		$widget_ops = array(
-			'classname'   => 'keurmerken-widget',
-			'description' => __( 'Keurmerken Widget', 'ejo' ),
+			'classname'   => 'simple-testimonials',
+			'description' => __( 'Shows a random testimonial', EJO_Simple_Testimonials::$slug ),
 		);
 
 		$control_ops = array(
-			'id_base' => 'keurmerken-widget',
-			'width'   => 505,
-			'height'  => 350,
+			'id_base' => 'ejo-simple-testimonials-widget'
 		);
 
-		parent::__construct( 'keurmerken-widget', __( 'Keurmerken Widget', 'ejo' ), $widget_ops, $control_ops );
+		parent::__construct( 'ejo-simple-testimonials-widget', $widget_title, $widget_ops, $control_ops );
 	}
 
 	//* Echo the widget content.
 	function widget( $args, $instance ) {
 
-		//* Get keurmerken-data
-		$keurmerken = get_option( 'theme_options_keurmerken' );
-		$keurmerken = ($keurmerken !== false) ? $keurmerken : array();
+		//* Get testimonials
+		$testimonials = get_option( '_ejo_simple_testimonials' );
+		$testimonials = ($testimonials !== false) ? $testimonials : array();
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$instance['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
@@ -44,21 +42,19 @@ class Keurmerken_Widget extends WP_Widget {
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
 
 		echo '<div class="widget-content">';
-		echo '<ul class="keurmerken">';
-		foreach ($keurmerken as $keurmerk) {
+		echo '<ul class="testimonials">';
 
-			echo '<li class="keurmerk">';
+		$random_key = array_rand($testimonials);
+		$testimonial = $testimonials[$random_key];
 
-			if (!empty($keurmerk['link']))
-				echo '<a href="'. $keurmerk['link'] .'">';
+			echo '<li class="testimonial">';
+
+			printf( '<h4>%s</h4>', $testimonial['title'] );
+			printf( '<blockquote>%s</blockquote>', $testimonial['content'] );
+			printf( '<span>%s</span>', $testimonial['caption'] );
 			
-			echo wp_get_attachment_image( $keurmerk['image_id'], 'keurmerk' );
-
-			if (!empty($keurmerk['link']))
-				echo '</a>';
-
 			echo '</li>';
-		}
+		// }
 		echo '</ul>';
 		echo '</div>';
 
