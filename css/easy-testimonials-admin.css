@@ -1,0 +1,42 @@
+.referenties-table {
+	border-bottom: none !important;
+}
+
+	.referenties-table tr {
+		border-bottom: 1px solid #e5e5e5;
+		width: 100%;
+	}
+
+	.referenties-table tr.ui-sortable-helper {
+		border: 1px solid #e5e5e5;
+		background-color: #fff;
+		display: table;
+	}
+
+		.referenties-table label {
+			margin-right: 4px;
+		}
+
+		.referenties-table .referentie-title {
+			width: 99%;				
+		}
+
+		.referenties-table .referentie-content {
+			width: 99%;				
+		}
+
+		.referenties-table .referentie-caption {
+			width: 99%;				
+		}
+
+		.referenties-table .move-referentie {
+			margin-left: 10px;				
+		}
+
+		.referenties-table .move-referentie:before {
+			cursor: move;
+		}
+
+		.referenties-table .remove-referentie:before {
+			cursor: pointer;
+		}
