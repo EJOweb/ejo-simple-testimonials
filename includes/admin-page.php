@@ -24,8 +24,7 @@
 		}
 
 		$testimonials = get_option( '_ejo_simple_testimonials' );
-		$testimonials = ($testimonials !== false) ? $testimonials : array();
-		$testimonial_count = count($testimonials);
+		$testimonials = (!empty($testimonials)) ? $testimonials : array();
 		// echo '<pre>';print_r($testimonials);echo '</pre>';
 	?>
 
@@ -45,9 +44,10 @@
 		<table class="form-table wp-list-table widefat testimonials-table">
 			<tbody>
 <?php
-				foreach ($testimonials as $position => $testimonial) {
+				write_log($testimonials);
+				foreach ($testimonials as $position => $testimonial) :
 					admin_show_simple_testimonial( $position, $testimonial );
-				}
+				endforeach;
 ?>
 			</tbody>
 		</table>
@@ -63,7 +63,7 @@
 function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 {
 	//* Variables
-	$row_class           = ($testimonial) ? '' : 'clone';
+	$row_class           = ($testimonial) ? 'testimonial' : 'clone';
 	$testimonial_title   = ($testimonial) ? stripslashes($testimonial['title']) : '';
 	$testimonial_content = ($testimonial) ? stripslashes($testimonial['content']) : '';
 	$testimonial_caption = ($testimonial) ? stripslashes($testimonial['caption']) : '';

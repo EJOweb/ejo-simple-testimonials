@@ -13,6 +13,10 @@
 		display: table;
 	}
 
+		.testimonials-table .id {
+			display: none;
+		}
+
 		.testimonials-table label {
 			margin-right: 4px;
 		}

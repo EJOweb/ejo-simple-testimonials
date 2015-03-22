@@ -5,39 +5,48 @@ jQuery(document).ready(function($){
      *********************************/
      //* Set testimonialnumber to pass on to inserted testimonial 
     // var new_testimonial_number = $( ".testimonials-table tbody tr" ).length;
-    var new_testimonial_number = get_new_testimonial_number();
+    var new_testimonial_number;
 
     //* Add testimonial
     $( ".add_testimonial" ).on('click', function(e) {
 
         e.preventDefault();
 
-        process_clone_number();
+        //* Calculate new testimonial number
+        new_testimonial_number = get_new_testimonial_number();
+
+        //* Prepare the clone
+        process_clone_number();      
+
+        //* Cloning action!
         clone_the_testimonial_clone();
 
-        new_testimonial_number = get_new_testimonial_number();
     });
 
+    //* Calculate new clone number
     function get_new_testimonial_number()
     {
-        var last_testimonial_id = parseInt( $( ".testimonials-table tbody tr:last-child .id" ).text() );
+        // var last_testimonial_id = parseInt( $( ".testimonials-table tbody tr:last-child .id" ).text() );
+        var highest_id = 0;
+        var num = 0;
+        $( ".testimonials-table tr" ).each( function(){
+            num = parseInt( $(this).text(), 10 );
+            if ( num >= highest_id) 
+                highest_id = num + 1;
+        });
 
-        if (isNaN(last_testimonial_id)) 
-            new_testimonial_number = 0;
-        else
-            new_testimonial_number = last_testimonial_id + 1;
-
-        return new_testimonial_number;
+        return highest_id;
     }
 
     function process_clone_number() {
-        $(".testimonial-clone .testimonial-title").attr("name", "testimonials[" + new_testimonial_number + "][title]");
-        $(".testimonial-clone .testimonial-content").attr("name", "testimonials[" + new_testimonial_number + "][content]");
-        $(".testimonial-clone .testimonial-caption").attr("name", "testimonials[" + new_testimonial_number + "][caption]");
+        $(".clone .id").text(new_testimonial_number);
+        $(".clone .testimonial-title").attr("name", "testimonials[" + new_testimonial_number + "][title]");
+        $(".clone .testimonial-content").attr("name", "testimonials[" + new_testimonial_number + "][content]");
+        $(".clone .testimonial-caption").attr("name", "testimonials[" + new_testimonial_number + "][caption]");
     }
 
     function clone_the_testimonial_clone() {
-        $(".testimonial-clone").clone().attr('class', 'testimonial').appendTo( $( ".testimonials-table tbody" ) );
+        $(".clone").clone().attr('class', 'testimonial').appendTo( $( ".testimonials-table tbody" ) );
     }
 
     //* Remove testimonial
