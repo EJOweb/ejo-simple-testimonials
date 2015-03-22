@@ -20,20 +20,20 @@ final class EJO_Simple_Testimonials_Admin
         add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts_and_styles' ) ); 
     }
 
-    public static function admin_menu(){
-        add_theme_page('Simple Testimonials', 'Simple Testimonials', 'edit_theme_options', EJO_Simple_Testimonials::$slug, 'admin_page');
+    public function admin_menu(){
+        add_management_page('Simple Testimonials', 'Simple Testimonials', 'edit_theme_options', EJO_Simple_Testimonials::$slug, array( $this, 'admin_page' ) );
     }
 
-    public static function admin_page()
+    public function admin_page()
     {
-        // include_once('admin-page.php');
+        include_once('admin-page.php');
     }
 
-    public static function register_admin_scripts_and_styles() {
+    public function register_admin_scripts_and_styles() {
         if (isset($_GET['page']) && $_GET['page'] == EJO_Simple_Testimonials::$slug) {
-            wp_enqueue_script('ejo-simple-testimonials-admin-js', EJO_Simple_Testimonials::$uri . 'includes/js/admin.js', array('jquery'));
+            wp_enqueue_script( 'ejo-simple-testimonials-admin-js', EJO_Simple_Testimonials::$uri . 'includes/js/admin.js', array('jquery', 'jquery-ui-sortable') );
 
-            wp_enqueue_style( 'ejo-simple-testimonials-admin-css', EJO_Simple_Testimonials::$uri . 'includes/css/admin.css' );
+            wp_enqueue_style( 'ejo-simple-testimonials-admin', EJO_Simple_Testimonials::$uri . 'includes/css/admin.css' );
         }
     }
 

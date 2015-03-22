@@ -44,6 +44,11 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		echo '<div class="widget-content">';
 		echo '<ul class="testimonials">';
 
+		if ( !$testimonials ) {
+			printf( '<li>%s</li>', 'No testimonials available' );
+			return;
+		}
+
 		$random_key = array_rand($testimonials);
 		$testimonial = $testimonials[$random_key];
 

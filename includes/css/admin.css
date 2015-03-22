@@ -1,42 +1,42 @@
-.referenties-table {
+.testimonials-table {
 	border-bottom: none !important;
 }
 
-	.referenties-table tr {
+	.testimonials-table tr {
 		border-bottom: 1px solid #e5e5e5;
 		width: 100%;
 	}
 
-	.referenties-table tr.ui-sortable-helper {
+	.testimonials-table tr.ui-sortable-helper {
 		border: 1px solid #e5e5e5;
 		background-color: #fff;
 		display: table;
 	}
 
-		.referenties-table label {
+		.testimonials-table label {
 			margin-right: 4px;
 		}
 
-		.referenties-table .referentie-title {
+		.testimonials-table .testimonial-title {
 			width: 99%;				
 		}
 
-		.referenties-table .referentie-content {
+		.testimonials-table .testimonial-content {
 			width: 99%;				
 		}
 
-		.referenties-table .referentie-caption {
+		.testimonials-table .testimonial-caption {
 			width: 99%;				
 		}
 
-		.referenties-table .move-referentie {
+		.testimonials-table .move-testimonial {
 			margin-left: 10px;				
 		}
 
-		.referenties-table .move-referentie:before {
+		.testimonials-table .move-testimonial:before {
 			cursor: move;
 		}
 
-		.referenties-table .remove-referentie:before {
+		.testimonials-table .remove-testimonial:before {
 			cursor: pointer;
 		}
