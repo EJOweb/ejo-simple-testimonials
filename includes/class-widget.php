@@ -30,8 +30,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 	function widget( $args, $instance ) {
 
 		//* Get testimonials
-		$testimonials = get_option( '_ejo_simple_testimonials' );
-		$testimonials = ($testimonials !== false) ? $testimonials : array();
+		$testimonials = EJO_Simple_Testimonials::get_testimonials();
 
 		/** This filter is documented in wp-includes/default-widgets.php */
 		$instance['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
@@ -41,16 +40,15 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		if ( !empty($instance['title']) )
 			echo $args['before_title'] . $instance['title'] . $args['after_title'];
 
-		echo '<div class="widget-content">';
 		echo '<ul class="testimonials">';
 
-		if ( !$testimonials ) {
-			printf( '<li>%s</li>', 'No testimonials available' );
-			return;
-		}
+			if ( !$testimonials ) {
+				printf( '<li>%s</li>', 'No testimonials available' );
+				return;
+			}
 
-		$random_key = array_rand($testimonials);
-		$testimonial = $testimonials[$random_key];
+			//* Get random testimonial
+			$testimonial = $testimonials[ array_rand($testimonials) ];
 
 			echo '<li class="testimonial">';
 
@@ -59,9 +57,8 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 			printf( '<span>%s</span>', $testimonial['caption'] );
 			
 			echo '</li>';
-		// }
+
 		echo '</ul>';
-		echo '</div>';
 
 		echo $args['after_widget'];
 	}

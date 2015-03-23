@@ -44,7 +44,6 @@
 		<table class="form-table wp-list-table widefat testimonials-table">
 			<tbody>
 <?php
-				write_log($testimonials);
 				foreach ($testimonials as $position => $testimonial) :
 					admin_show_simple_testimonial( $position, $testimonial );
 				endforeach;

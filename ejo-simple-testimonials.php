@@ -3,7 +3,7 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  */
@@ -14,7 +14,7 @@
 final class EJO_Simple_Testimonials
 {
     //* Version number of this plugin
-    public static $version = '0.2.0';
+    public static $version = '0.3.0';
 
     //* Holds the instance of this class.
     private static $_instance = null;
@@ -50,7 +50,11 @@ final class EJO_Simple_Testimonials
 
         //* Widget
         add_action( 'widgets_init', array( $this, 'manage_widgets' ) );
-    }
+
+        //* Add shortcode
+        add_shortcode( 'simple_testimonials', array( $this, 'testimonials_shortcode' ) );
+        add_shortcode( 'simple-testimonials', array( $this, 'testimonials_shortcode' ) );
+   }
 
     //* Setup
     private static function setup() 
@@ -76,16 +80,15 @@ final class EJO_Simple_Testimonials
         register_widget( 'EJO_Simple_Testimonials_Widget' ); 
     }
 
-    //* Get testimonials
-    public function get_testimonials() 
+    //* Show testimonials
+    public function get_testimonials_output() 
     {
-        //* Get Testimonials
-        $testimonials = get_option( '_ejo_simple_testimonials' );
-        $testimonials = ($testimonials !== false) ? $testimonials : array();
+        //* Get testimonials
+		$testimonials = EJO_Simple_Testimonials::get_testimonials();
 
         //* Abort if no testimonials available
         if (empty($testimonials))
-            return;
+            return 'No testimonials available';
 
         $output = '';
         $output .= '<div class="testimonials-container">';
@@ -102,13 +105,29 @@ final class EJO_Simple_Testimonials
                 $output .= '<p class="testimonial-caption">' . stripslashes($testimonial['caption']) . '</p>';
 
             $output .= '</article>';
-            $output .= '<hr>';
         }
-        $output = rtrim($output, '<hr>');
         $output .= '</div>';
 
         return $output;
     }
+
+    //* Get testimonials
+    public function get_testimonials() 
+    {
+        //* Get Testimonials
+        $testimonials = get_option( '_ejo_simple_testimonials' );
+        $testimonials = ($testimonials !== false) ? $testimonials : array();
+
+        return $testimonials;
+    }
+
+    // Shortcode Function to show Vsee link
+	public function testimonials_shortcode() 
+	{
+		$output = $this->get_testimonials_output();
+
+		return $output;
+	}
 }
 
 EJO_Simple_Testimonials::instance();
