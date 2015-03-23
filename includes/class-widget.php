@@ -52,9 +52,9 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 			echo '<li class="testimonial">';
 
-			printf( '<h4>%s</h4>', $testimonial['title'] );
-			printf( '<blockquote>%s</blockquote>', $testimonial['content'] );
-			printf( '<span>%s</span>', $testimonial['caption'] );
+			printf( '<h4>%s</h4>', stripslashes($testimonial['title']) );
+			printf( '<blockquote>%s</blockquote>', stripslashes($testimonial['content']) );
+			printf( '<span>%s</span>', stripslashes($testimonial['caption']) );
 			
 			echo '</li>';
 
