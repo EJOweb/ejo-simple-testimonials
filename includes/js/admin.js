@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
         // var last_testimonial_id = parseInt( $( ".testimonials-table tbody tr:last-child .id" ).text() );
         var highest_id = 0;
         var num = 0;
-        $( ".testimonials-table tr" ).each( function(){
+        $( ".testimonials-table tr .id" ).each( function(){
             num = parseInt( $(this).text(), 10 );
             if ( num >= highest_id) 
                 highest_id = num + 1;
