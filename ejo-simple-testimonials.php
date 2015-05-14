@@ -3,7 +3,7 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.3.0
+ * Version: 0.3.1
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  */
@@ -14,7 +14,7 @@
 final class EJO_Simple_Testimonials
 {
     //* Version number of this plugin
-    public static $version = '0.3.0';
+    public static $version = '0.3.1';
 
     //* Holds the instance of this class.
     private static $_instance = null;
@@ -81,10 +81,10 @@ final class EJO_Simple_Testimonials
     }
 
     //* Show testimonials
-    public function get_testimonials_output() 
+    public static function get_testimonials_output() 
     {
         //* Get testimonials
-		$testimonials = EJO_Simple_Testimonials::get_testimonials();
+		$testimonials = self::get_testimonials();
 
         //* Abort if no testimonials available
         if (empty($testimonials))
@@ -112,19 +112,18 @@ final class EJO_Simple_Testimonials
     }
 
     //* Get testimonials
-    public function get_testimonials() 
+    public static function get_testimonials() 
     {
         //* Get Testimonials
-        $testimonials = get_option( '_ejo_simple_testimonials' );
-        $testimonials = ($testimonials !== false) ? $testimonials : array();
+        $testimonials = get_option( '_ejo_simple_testimonials', array() );
 
         return $testimonials;
     }
 
     // Shortcode Function to show Vsee link
-	public function testimonials_shortcode() 
+	public static function testimonials_shortcode() 
 	{
-		$output = $this->get_testimonials_output();
+		$output = self::get_testimonials_output();
 
 		return $output;
 	}
