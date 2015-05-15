@@ -3,7 +3,7 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.3.1
+ * Version: 0.4.0
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  */
@@ -53,7 +53,6 @@ final class EJO_Simple_Testimonials
 
         //* Add shortcode
         add_shortcode( 'simple_testimonials', array( $this, 'testimonials_shortcode' ) );
-        add_shortcode( 'simple-testimonials', array( $this, 'testimonials_shortcode' ) );
    }
 
     //* Setup
@@ -120,7 +119,7 @@ final class EJO_Simple_Testimonials
         return $testimonials;
     }
 
-    // Shortcode Function to show Vsee link
+    // Shortcode Function to show testimonials
 	public static function testimonials_shortcode() 
 	{
 		$output = self::get_testimonials_output();
