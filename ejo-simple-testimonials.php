@@ -8,7 +8,7 @@
  * Author URI: http://www.ejoweb.nl/
  *
  * GitHub Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
- * GitHub Branch:     master
+ * GitHub Branch:     slaopbijstrang
  */
 
 /**
