@@ -3,7 +3,7 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.4.1
+ * Version: 0.4.2
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  *
@@ -99,12 +99,12 @@ final class EJO_Simple_Testimonials
             $output .= '<article class="testimonial">';
 
             if (!empty($testimonial['title']))
-                $output .= '<h4 class="testimonial-title">' . stripslashes($testimonial['title']) . '</h4>';
-
-            $output .= '<blockquote class="testimonial">' . stripslashes($testimonial['content']) . '</blockquote>';
+                $output .= '<h2 class="testimonial-title">' . stripslashes($testimonial['title']) . '</h2>';
 
             if (!empty($testimonial['caption']))
                 $output .= '<p class="testimonial-caption">' . stripslashes($testimonial['caption']) . '</p>';
+
+            $output .= '<blockquote class="testimonial-quote">' . stripslashes($testimonial['content']) . '</blockquote>';
 
             $output .= '</article>';
         }

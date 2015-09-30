@@ -76,10 +76,10 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 					<li class="testimonial">
 						<?php
 						if (!empty($testimonial['title']))
-							printf( '<h4>%s</h4>', stripslashes($testimonial['title']) );
+							printf( '<h4 class="%s">%s</h4>', 'testimonial-title', stripslashes($testimonial['title']) );
 
 						if (!empty($testimonial['caption']))
-							printf( '<span class="%s">%s</span>', 'caption', stripslashes($testimonial['caption']) );
+							printf( '<span class="%s">%s</span>', 'testimonial-caption', stripslashes($testimonial['caption']) );
 
 						if (!empty($testimonial['content'])) {
 							$testimonial_content = stripslashes($testimonial['content']);
@@ -88,7 +88,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 							if (isset($character_limit) && strlen($testimonial_content) > $character_limit) 
 								$testimonial_content = substr($testimonial_content, 0, $character_limit) . '...';
 
-							printf( '<div class="%s"><blockquote>%s</blockquote></div>', 'quote-wrap', $testimonial_content );
+							printf( '<div class="%s"><blockquote class="%s">%s</blockquote></div>', 'quote-wrap', 'testimonial-quote', $testimonial_content );
 						}
 						?>				
 					</li>
