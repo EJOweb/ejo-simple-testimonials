@@ -17,7 +17,7 @@
 final class EJO_Simple_Testimonials
 {
     //* Version number of this plugin
-    public static $version = '0.4.1';
+    public static $version = '0.4.2';
 
     //* Holds the instance of this class.
     private static $_instance = null;
