@@ -7,7 +7,7 @@
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  *
- * GitHub Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
+ * GitHub Plugin URI: http://github.com/EJOweb/ejo-simple-testimonials
  * GitHub Branch:     master
  */
 
