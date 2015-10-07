@@ -33,26 +33,26 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		$testimonials = EJO_Simple_Testimonials::get_testimonials();
 
 		/** This filter is documented in wp-includes/default-widgets.php */
-		$instance['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
+		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
 		//* Fetch carousel option
-		$carousel = isset( $instance['carousel'] ) ? TRUE : NULL;
+		$carousel = empty( $instance['carousel'] ) ? FALSE : TRUE;
 
 		//* Fetch 'how many testimonials should be shown' option
-		$number = isset( $instance['number'] ) ? $instance['number'] : '1';
+		$number = empty( $instance['number'] ) ? '1' : $instance['number'];
 
 		//* Fetch character limit
-		$character_limit = isset( $instance['character_limit'] ) ? $instance['character_limit'] : NULL;
+		$character_limit = empty( $instance['character_limit'] ) ? 0 : $instance['character_limit'];
 
 		//* Store link/button
-		$button['show'] = isset( $instance['button']['show'] ) ? TRUE : NULL;
-		$button['link_text'] = isset( $instance['button']['link_text'] ) ? strip_tags( $instance['button']['link_text'] ) : '';
-		$button['linked_page'] = isset( $instance['button']['linked_page'] ) ? $instance['button']['linked_page'] : NULL;
+		$button['show'] = empty( $instance['button']['show'] ) ? FALSE : TRUE;
+		$button['link_text'] = empty( $instance['button']['link_text'] ) ? '' : strip_tags( $instance['button']['link_text'] );
+		$button['linked_page'] = empty( $instance['button']['linked_page'] ) ? '' : $instance['button']['linked_page'];
 
 		echo $args['before_widget'];
 
-		if ( !empty($instance['title']) )
-			echo $args['before_title'] . $instance['title'] . $args['after_title']; ?>
+		if ( $title )
+			echo $args['before_title'] . $title . $args['after_title']; ?>
 
 		<div class="testimonials-wrap">
 			<ul class="testimonials <?php if ($carousel) echo 'carousel'; ?>"><?php
@@ -69,7 +69,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 				$number = (sizeof($testimonials) < $number) ? sizeof($testimonials) : $number;
 
 				//* Loop through testimonials
-				for( $i=0; $i<$number; $i++) {				
+				for( $i=0; $i<$number; $i++) {
 
 					$testimonial = $testimonials[$i]; ?>
 
@@ -85,7 +85,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 							$testimonial_content = stripslashes($testimonial['content']);
 
 							//* Limit number of characters
-							if (isset($character_limit) && strlen($testimonial_content) > $character_limit) 
+							if ($character_limit && strlen($testimonial_content) > $character_limit) 
 								$testimonial_content = substr($testimonial_content, 0, $character_limit) . '...';
 
 							printf( '<div class="%s"><blockquote class="%s">%s</blockquote></div>', 'quote-wrap', 'testimonial-quote', $testimonial_content );
@@ -97,8 +97,9 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 				?>
 			</ul>
 
-		<?php if ($button['show']) ?>
+		<?php if ($button['show'] && $button['linked_page']) : ?>
 			<a href="<?php echo get_the_permalink($button['linked_page']); ?>" class="button"><?php echo $button['link_text']; ?></a>
+		<?php endif; // Show button ?>
 		
 		</div>
 
@@ -109,21 +110,21 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 	function update( $new_instance, $old_instance ) 
 	{
 		//* Store new title
-		$instance['title'] = isset( $new_instance['title'] ) ? strip_tags( $new_instance['title'] ) : '';
+		$instance['title'] = empty( $new_instance['title'] ) ? '' : strip_tags( $new_instance['title'] );
 
 		//* Store new carousel option [on/off]
-		$instance['carousel'] = isset( $new_instance['carousel'] ) ? TRUE : NULL;
+		$instance['carousel'] = empty( $new_instance['carousel'] ) ? FALSE : TRUE;
 
 		//* Store new number of testimonials
-		$instance['number'] = isset( $new_instance['number'] ) ? $new_instance['number'] : '1';
+		$instance['number'] = empty( $new_instance['number'] ) ? '1' : $new_instance['number'];
 
 		//* Store new character_limit
-		$instance['character_limit'] = isset( $new_instance['character_limit'] ) ? absint( $new_instance['character_limit'] ) : '';
+		$instance['character_limit'] = empty( $new_instance['character_limit'] ) ? 0 : absint( $new_instance['character_limit'] );
 
 		//* Store link/button
-		$instance['button']['show'] = isset( $new_instance['button']['show'] ) ? TRUE : NULL;
-		$instance['button']['link_text'] = isset( $new_instance['button']['link_text'] ) ? strip_tags( $new_instance['button']['link_text'] ) : '';
-		$instance['button']['linked_page'] = isset( $new_instance['button']['linked_page'] ) ? $new_instance['button']['linked_page'] : NULL;
+		$instance['button']['show'] = empty( $new_instance['button']['show'] ) ? FALSE : TRUE;
+		$instance['button']['link_text'] = empty( $new_instance['button']['link_text'] ) ? '' : strip_tags( $new_instance['button']['link_text'] );
+		$instance['button']['linked_page'] = empty( $new_instance['button']['linked_page'] ) ? '' : $new_instance['button']['linked_page'];
 
 		//* Save
 		return $instance;
@@ -133,34 +134,39 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 	function form( $instance ) 
 	{
 		//* Fetch title
-		$title = isset( $instance['title'] ) ? $instance['title'] : '';
+		$title = empty( $instance['title'] ) ? '' : $instance['title'];
 
 		//* Fetch carousel option
-		$carousel = isset( $instance['carousel'] ) ? TRUE : NULL;
+		$carousel = empty( $instance['carousel'] ) ? FALSE : TRUE;
 
 		//* Fetch 'how many testimonials should be shown' option
-		$number = isset( $instance['number'] ) ? $instance['number'] : '1';
+		$number = empty( $instance['number'] ) ? '1' : $instance['number'];
 
 		//* Fetch character limit
-		$character_limit = isset( $instance['character_limit'] ) ? $instance['character_limit'] : '';
+		$character_limit = empty( $instance['character_limit'] ) ? 0 : $instance['character_limit'];
 
 		//* Fetch button settings
-		$button['show'] = isset( $instance['button']['show'] ) ? TRUE : NULL; 
-		$button['link_text'] = isset( $instance['button']['link_text'] ) ? $instance['button']['link_text'] : '';
-		$button['linked_page'] = isset( $instance['button']['linked_page'] ) ? $instance['button']['linked_page'] : '';
+		$button['show'] = empty( $instance['button']['show'] ) ? FALSE : TRUE; 
+		$button['link_text'] = empty( $instance['button']['link_text'] ) ? '' : $instance['button']['link_text'];
+		$button['linked_page'] = empty( $instance['button']['linked_page'] ) ? '' : $instance['button']['linked_page'];
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:') ?></label>
+			<label for="<?php echo $this->get_field_id('title'); ?>">Title:</label>
 			<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $title; ?>" />
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('carousel'); ?>"><?php _e('Carousel:') ?></label>
-			<input type="checkbox" id="<?php echo $this->get_field_id('carousel'); ?>" name="<?php echo $this->get_field_name('carousel'); ?>" <?php checked($carousel); ?> />
+			<strong>Carousel</strong>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('number'); ?>"><?php _e('Aantal referenties:') ?></label>
-			<select id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" >
+			<label for="<?php echo $this->get_field_id('carousel'); ?>">
+				<input type="checkbox" id="<?php echo $this->get_field_id('carousel'); ?>" name="<?php echo $this->get_field_name('carousel'); ?>" <?php checked($carousel); ?> />
+				Inschakelen
+			</label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('number'); ?>">Aantal referenties:</label>
+			<select id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" class="widefat">
 				<option value="1" <?php selected( $number, '1' ); ?> >1</option>
 				<option value="2" <?php selected( $number, '2' ); ?> >2</option>
 				<option value="3" <?php selected( $number, '3' ); ?> >3</option>
@@ -169,23 +175,27 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 			</select>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('character_limit'); ?>"><?php _e('Character limit:') ?></label>
-			<input type="text" id="<?php echo $this->get_field_id('character_limit'); ?>" name="<?php echo $this->get_field_name('character_limit'); ?>" value="<?php echo $character_limit; ?>" size="3" />
-		</p>
-
-		<hr>
-
-		<p>
-			<label for="<?php echo $this->get_field_id('button'); ?>"><?php _e('Link naar referentie-pagina tonen: ') ?></label>
-			<input type="checkbox" id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name('button'); ?>[show]" <?php checked($button['show']); ?> />
+			<label for="<?php echo $this->get_field_id('character_limit'); ?>">
+				Character limit: 
+				<input type="text" id="<?php echo $this->get_field_id('character_limit'); ?>" name="<?php echo $this->get_field_name('character_limit'); ?>" value="<?php echo $character_limit; ?>" placeholder="200" class="widefat" />
+			</label>
 		</p>
 		<p>
-			<label for="<?php echo $this->get_field_id('link_text'); ?>"><?php _e('Link Tekst:') ?></label>
+			<strong>Referentiepagina</strong>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('button'); ?>">
+				<input type="checkbox" id="<?php echo $this->get_field_id('button'); ?>" name="<?php echo $this->get_field_name('button'); ?>[show]" value="show" <?php checked($button['show']); ?> />
+				Toon link naar referentie-pagina
+			</label>
+		</p>
+		<p>
+			<label for="<?php echo $this->get_field_id('link_text'); ?>">Link Tekst:</label>
 			<input type="text" class="widefat" id="<?php echo $this->get_field_id('link_text'); ?>" name="<?php echo $this->get_field_name('button'); ?>[link_text]" value="<?php echo $button['link_text']; ?>" />
 		</p>
 		<p>
 			<label>Referentie-pagina:</label>
-			<select name="<?php echo $this->get_field_name('button'); ?>[linked_page]">
+			<select name="<?php echo $this->get_field_name('button'); ?>[linked_page]" class="widefat">
 				<?php $this->page_select_options($button['linked_page']); ?>
 			</select>
 		</p>
