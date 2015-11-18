@@ -21,7 +21,7 @@ final class EJO_Simple_Testimonials_Admin
     }
 
     public function admin_menu(){
-        add_management_page('Simple Testimonials', 'Simple Testimonials', 'edit_theme_options', EJO_Simple_Testimonials::$slug, array( $this, 'admin_page' ) );
+        add_theme_page('Simple Testimonials', 'Simple Testimonials', 'edit_theme_options', EJO_Simple_Testimonials::$slug, array( $this, 'admin_page' ) );
     }
 
     public function admin_page()

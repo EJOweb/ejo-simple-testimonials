@@ -3,7 +3,7 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.4.3
+ * Version: 0.4.4
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  *
@@ -17,7 +17,7 @@
 final class EJO_Simple_Testimonials
 {
     //* Version number of this plugin
-    public static $version = '0.4.3';
+    public static $version = '0.4.4';
 
     //* Holds the instance of this class.
     private static $_instance = null;
