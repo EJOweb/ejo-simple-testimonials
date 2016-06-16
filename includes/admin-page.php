@@ -56,6 +56,12 @@
 		</p>
 	</form>
 
+	<hr/>
+	<h2 class="title">Extra informatie</h2>
+	<p>
+		Gebruik de shortcode [simple_testimonials] om alle testimonials te tonen op een pagina.
+	</p>
+
 </div>
 
 <?php

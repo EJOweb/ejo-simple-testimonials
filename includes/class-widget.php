@@ -52,7 +52,33 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		echo $args['before_widget'];
 
 		if ( $title )
-			echo $args['before_title'] . $title . $args['after_title']; ?>
+			echo $args['before_title'] . $title . $args['after_title']; 
+
+		/* Insert carousel script if active */
+		if ($carousel) : ?>
+
+			<script type="text/javascript">
+				jQuery(document).ready(function($){
+
+					/*------------------------------------------------------------------
+					Testimonial caroussel
+					-------------------------------------------------------------------*/
+					$('.testimonials.carousel .testimonial:gt(0)').hide();
+					
+					setInterval(
+						function(){
+							$('.testimonials.carousel .testimonial:first-child').fadeOut( 600, function() {
+								$(this).next('.testimonial').fadeIn( 600 );
+								$(this).appendTo('.testimonials.carousel');
+							}).end();
+						},
+						5000
+					);
+
+				});
+			</script>
+
+		<?php endif; // End carousel check ?>
 
 		<div class="testimonials-wrap">
 			<ul class="testimonials <?php if ($carousel) echo 'carousel'; ?>"><?php

@@ -3,12 +3,12 @@
  * Plugin Name: EJO Simple Testimonials
  * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
  * Description: Simple way of adding testimonials to your website
- * Version: 0.4.4
+ * Version: 0.4.5
  * Author: Erik Joling
  * Author URI: http://www.ejoweb.nl/
  *
  * GitHub Plugin URI: http://github.com/EJOweb/ejo-simple-testimonials
- * GitHub Branch:     master
+ * GitHub Branch:     basiswebsite
  */
 
 /**
