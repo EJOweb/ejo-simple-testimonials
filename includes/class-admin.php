@@ -20,8 +20,12 @@ final class EJO_Simple_Testimonials_Admin
         add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts_and_styles' ) ); 
     }
 
-    public function admin_menu(){
-        add_theme_page('Simple Testimonials', 'Simple Testimonials', 'edit_theme_options', EJO_Simple_Testimonials::$slug, array( $this, 'admin_page' ) );
+    public function admin_menu() 
+    {
+        //* Allow capability for menu page to be filtered
+        $cap = apply_filters( 'ejo_simple_testimonials_cap', 'edit_theme_options' );
+
+        add_theme_page('Simple Testimonials', 'Simple Testimonials', $cap, EJO_Simple_Testimonials::$slug, array( $this, 'admin_page' ) );
     }
 
     public function admin_page()
