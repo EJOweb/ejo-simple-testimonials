@@ -27,7 +27,11 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 	}
 
 	//* Echo the widget content.
-	function widget( $args, $instance ) {
+	function widget( $args, $instance ) 
+	{
+		//* Check if Widget Template Loader exists and try to load template
+ 		if ( class_exists( 'EJO_Widget_Template_Loader' ) && EJO_Widget_Template_Loader::load_template( $args, $instance, $this ) )
+ 			return;
 
 		//* Get testimonials
 		$testimonials = EJO_Simple_Testimonials::get_testimonials();
