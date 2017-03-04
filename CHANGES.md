@@ -1,3 +1,4 @@
+- Added new fields and improved backend ui
 - Added language support
 
 0.5

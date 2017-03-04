@@ -14,9 +14,6 @@ final class EJO_Simple_Testimonials_Admin
     //* Stores the directory URI for this plugin.
     public static $uri;
 
-    //* Stores text domain
-    public static $textdomain;
-
     //* Returns the instance.
     public static function instance() 
     {

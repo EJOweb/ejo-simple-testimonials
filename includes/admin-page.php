@@ -81,12 +81,12 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 
 	/* Create default testimonial values */
 	$default_testimonial = array(
-		'author_name'	=> '',
-		'author_info' 	=> '',
-		'image'			=> '',
-		'content' 		=> '',
-		'rating' 		=> '',
-		'date' 			=> '',
+		'author_name'		=> '',
+		'author_info' 		=> '',
+		'author_image'		=> '',
+		'review_content'	=> '',
+		'review_rating' 	=> '',
+		'review_date' 		=> '',
 	);
 
 	/* Process the testimonial values */
@@ -95,40 +95,49 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 	/* Handle backwards compatibility */
 	$testimonial['author_name'] = isset($testimonial['title']) ? $testimonial['title'] : $testimonial['author_name'];
 	$testimonial['author_info'] = isset($testimonial['caption']) ? $testimonial['caption'] : $testimonial['author_info'];
+	$testimonial['review_content'] = isset($testimonial['content']) ? $testimonial['content'] : $testimonial['review_content'];
 
 	?>
-	<pre><?= var_dump($testimonial); ?></pre>
 
 	<tr class="<?php echo $row_class; ?>">
-		<td width="40">
+		<td class="cel-1">
 			<span class="id"><?php echo $position; ?></span>
 			<div class="move-testimonial dashicons-before dashicons-sort"><br/></div>
 		</td>
-		<td width="360">
-			<div>
-				<label><?= __('Author name', 'ejo-simple-testimonials'); ?></label>
+		<td class="cel-2">
+			<div class="ejo-form-field">
+				<label class="top-label"><?= __('Author name', 'ejo-simple-testimonials'); ?></label>
 				<input type="text" class="testimonial-author-name" name="testimonials[<?php echo $position; ?>][author_name]" value="<?php echo $testimonial['author_name']; ?>" placeholder="<?= __('Author name', 'ejo-simple-testimonials'); ?>">
 			</div>
-			<div>
-				<label><?= __('Extra Info', 'ejo-simple-testimonials'); ?></label>
+			<div class="ejo-form-field">
+				<label class="top-label"><?= __('Author Info', 'ejo-simple-testimonials'); ?></label>
 				<input type="text" class="testimonial-author-info" name="testimonials[<?php echo $position; ?>][author_info]" value="<?php echo $testimonial['author_info']; ?>" placeholder="<?= __('Location, company...', 'ejo-simple-testimonials'); ?>">
 			</div>
 		</td>
-		<td>
-			<div>
-				<label><?= __('Testimonial', 'ejo-simple-testimonials'); ?></label>
-				<textarea class="testimonial-content" name="testimonials[<?php echo $position; ?>][content]" placeholder="<?= __('Testimonial', 'ejo-simple-testimonials'); ?>"><?php echo $testimonial['content']; ?></textarea>
-			</div>
-			<div>
-				<label><?= __('Rating', 'ejo-simple-testimonials'); ?></label>
-				...
-			</div>
-			<div>
-				<label><?= __('Date', 'ejo-simple-testimonials'); ?></label>
-				<input type="text" class="testimonial-date" name="testimonials[<?php echo $position; ?>][date]" value="<?php echo $testimonial['date']; ?>" placeholder="<?= __('Date', 'ejo-simple-testimonials'); ?>">
+		<td class="cel-3">
+			<div class="ejo-form-field">
+				<label class="top-label"><?= __('Testimonial', 'ejo-simple-testimonials'); ?></label>
+				<textarea class="testimonial-review-content" name="testimonials[<?php echo $position; ?>][review_content]" placeholder="<?= __('Testimonial', 'ejo-simple-testimonials'); ?>"><?php echo $testimonial['review_content']; ?></textarea>
 			</div>
 		</td>
-		<td width="40">
+		<td class="cel-4">
+			<div class="ejo-form-field">
+				<label class="top-label"><?= __('Rating', 'ejo-simple-testimonials'); ?></label>
+				<select class="testimonial-review-rating" name="testimonials[<?php echo $position; ?>][review_rating]">
+					<option value="" <?php selected($testimonial['review_rating'], ""); ?>>-- <?= __('No rating', 'ejo-simple-testimonials'); ?> --</option>
+					<option value="1" <?php selected($testimonial['review_rating'], "1"); ?>><?= __('One star', 'ejo-simple-testimonials'); ?></option>
+					<option value="2" <?php selected($testimonial['review_rating'], "2"); ?>><?= __('Two stars', 'ejo-simple-testimonials'); ?></option>
+					<option value="3" <?php selected($testimonial['review_rating'], "3"); ?>><?= __('Three stars', 'ejo-simple-testimonials'); ?></option>
+					<option value="4" <?php selected($testimonial['review_rating'], "4"); ?>><?= __('Four stars', 'ejo-simple-testimonials'); ?></option>
+					<option value="5" <?php selected($testimonial['review_rating'], "5"); ?>><?= __('Five stars', 'ejo-simple-testimonials'); ?></option>
+				</select>
+			</div>
+			<div class="ejo-form-field">
+				<label class="top-label"><?= __('Date', 'ejo-simple-testimonials'); ?> (<?= __('dd-mm-yyyy', 'ejo-simple-testimonials'); ?>)</label>
+				<input type="text" class="testimonial-review-date" name="testimonials[<?php echo $position; ?>][review_date]" value="<?php echo $testimonial['review_date']; ?>" placeholder="<?= __('dd-mm-yyyy', 'ejo-simple-testimonials'); ?>">
+			</div>
+		</td>
+		<td class="cel-5">
 			<div class="remove-testimonial dashicons-before dashicons-dismiss"><br/></div>
 		</td>
 	</tr>
