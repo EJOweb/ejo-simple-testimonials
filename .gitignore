@@ -1,0 +1,3 @@
+# Ignore backup translate-files created by Loco Translate
+*.po~
+*.pot~

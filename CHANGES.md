@@ -1,4 +1,4 @@
-- 
+- Added language support
 
 0.5
 - Integrated EJO Widget Template Loader

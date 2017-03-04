@@ -2,24 +2,8 @@
 	<h2>Simple Testimonials</h2>
 
 	<?php
-
-		//* options record met een lijst attachment id's en bijbehorende urls
-
-		//* Nonces shizzle
-
 		if ( isset($_POST['submit']) ) {
-
-			/* Create temporary array of send testimonials */
-			$testimonials = (isset($_POST['testimonials'])) ? $_POST['testimonials'] : array();
-
-			/* To save the order of the testimonials, reset the keys */
-			$testimonials = array_values($testimonials);
-
-			/* ?><pre><?= var_dump($testimonials); ?></pre><?php */
-
-			/* Saving */
-			update_option( '_ejo_simple_testimonials', $testimonials );
-			echo '<div id="message" class="updated"><p><strong>De testimonials zijn opgeslagen.</strong></p></div>';
+			ejo_save_simple_testimonials($_POST['testimonials']);
 		}
 
 		$testimonials = get_option( '_ejo_simple_testimonials' );
@@ -62,7 +46,34 @@
 
 </div>
 
-<?php
+<?php 
+/**
+ * Save the testimonials data to WordPress options table
+ *
+ * @param: array with testimonials
+ * @return: none
+ */
+function ejo_save_simple_testimonials($testimonials = array())
+{
+	/* TODO: got to use Nonces */
+
+	/* Save the order of the testimonials (by resetting the keys) */
+	$testimonials = array_values($testimonials);
+
+	/* Debugging */
+	/* ?><pre><?= var_dump($testimonials); ?></pre><?php */
+
+	/* Saving */
+	update_option( '_ejo_simple_testimonials', $testimonials );
+	echo '<div id="message" class="updated"><p><strong>De testimonials zijn opgeslagen.</strong></p></div>';
+}
+
+/**
+ * Show the testimonial data
+ *
+ * @param: position (int) | testimonials (array)
+ * @return: none
+ */
 function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 {
 	/* Define the class of the container */
@@ -70,27 +81,23 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 
 	/* Create default testimonial values */
 	$default_testimonial = array(
-		'author'	=> array(
-			'name' 		=> '',
-			'location' 	=> '',
-			'jobtitle' 	=> '',
-			'company' 	=> '',
-		),
-		'content' 	=> '',
-		'rating' 	=> '',
-		'date' 		=> '',
+		'author_name'	=> '',
+		'author_info' 	=> '',
+		'image'			=> '',
+		'content' 		=> '',
+		'rating' 		=> '',
+		'date' 			=> '',
 	);
 
 	/* Process the testimonial values */
 	$testimonial = wp_parse_args($testimonial, $default_testimonial);
 
 	/* Handle backwards compatibility */
-	$testimonial['author']['name'] = isset($testimonial['title']) ? $testimonial['title'] : $testimonial['author']['name'];
-	$testimonial['author']['location'] = isset($testimonial['caption']) ? $testimonial['caption'] : $testimonial['author']['location'];
+	$testimonial['author_name'] = isset($testimonial['title']) ? $testimonial['title'] : $testimonial['author_name'];
+	$testimonial['author_info'] = isset($testimonial['caption']) ? $testimonial['caption'] : $testimonial['author_info'];
 
 	?>
 	<pre><?= var_dump($testimonial); ?></pre>
-	
 
 	<tr class="<?php echo $row_class; ?>">
 		<td width="40">
@@ -99,34 +106,26 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 		</td>
 		<td width="360">
 			<div>
-				<label>Naam</label>
-				<input type="text" class="testimonial-author-name" name="testimonials[<?php echo $position; ?>][author][name]" value="<?php echo $testimonial['author']['name']; ?>" placeholder="Naam">
+				<label><?= __('Author name', 'ejo-simple-testimonials'); ?></label>
+				<input type="text" class="testimonial-author-name" name="testimonials[<?php echo $position; ?>][author_name]" value="<?php echo $testimonial['author_name']; ?>" placeholder="<?= __('Author name', 'ejo-simple-testimonials'); ?>">
 			</div>
 			<div>
-				<label>Locatie</label>
-				<input type="text" class="testimonial-author-location" name="testimonials[<?php echo $position; ?>][author][location]" value="<?php echo $testimonial['author']['location']; ?>" placeholder="Locatie">
-			</div>
-			<div>
-				<label>Functietitel</label>
-				<input type="text" class="testimonial-author-jobtitle" name="testimonials[<?php echo $position; ?>][author][jobtitle]" value="<?php echo $testimonial['author']['jobtitle']; ?>" placeholder="Functietitel">
-			</div>
-			<div>
-				<label>Bedrijf</label>
-				<input type="text" class="testimonial-author-company" name="testimonials[<?php echo $position; ?>][author][company]" value="<?php echo $testimonial['author']['company']; ?>" placeholder="Bedrijf">
+				<label><?= __('Extra Info', 'ejo-simple-testimonials'); ?></label>
+				<input type="text" class="testimonial-author-info" name="testimonials[<?php echo $position; ?>][author_info]" value="<?php echo $testimonial['author_info']; ?>" placeholder="<?= __('Location, company...', 'ejo-simple-testimonials'); ?>">
 			</div>
 		</td>
 		<td>
 			<div>
-				<label>Referentie</label>
-				<textarea class="testimonial-content" name="testimonials[<?php echo $position; ?>][content]" placeholder="Referentie"><?php echo $testimonial['content']; ?></textarea>
+				<label><?= __('Testimonial', 'ejo-simple-testimonials'); ?></label>
+				<textarea class="testimonial-content" name="testimonials[<?php echo $position; ?>][content]" placeholder="<?= __('Testimonial', 'ejo-simple-testimonials'); ?>"><?php echo $testimonial['content']; ?></textarea>
 			</div>
 			<div>
-				<label>Rating</label>
+				<label><?= __('Rating', 'ejo-simple-testimonials'); ?></label>
 				...
 			</div>
 			<div>
-				<label>Datum</label>
-				<input type="text" class="testimonial-date" name="testimonials[<?php echo $position; ?>][date]" value="<?php echo $testimonial['date']; ?>" placeholder="Datum">
+				<label><?= __('Date', 'ejo-simple-testimonials'); ?></label>
+				<input type="text" class="testimonial-date" name="testimonials[<?php echo $position; ?>][date]" value="<?php echo $testimonial['date']; ?>" placeholder="<?= __('Date', 'ejo-simple-testimonials'); ?>">
 			</div>
 		</td>
 		<td width="40">

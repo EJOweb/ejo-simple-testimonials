@@ -1,0 +1,58 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: EJO Simple Testimonials\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-04 12:05+0000\n"
+"PO-Revision-Date: 2017-03-04 12:06+0000\n"
+"Last-Translator: EJOweb <erik@ejoweb.nl>\n"
+"Language-Team: Dutch\n"
+"Language: nl-NL\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: includes/admin-page.php:109 includes/admin-page.php:110
+msgid "Author name"
+msgstr ""
+
+#: includes/admin-page.php:113
+msgid "Extra Info"
+msgstr ""
+
+#: includes/admin-page.php:114
+msgid "Location, company..."
+msgstr "Locatie, bedrijf..."
+
+#: includes/admin-page.php:119 includes/admin-page.php:120
+msgid "Testimonial"
+msgstr "Referentie"
+
+#: includes/admin-page.php:123
+msgid "Rating"
+msgstr ""
+
+#: includes/admin-page.php:127 includes/admin-page.php:128
+msgid "Date"
+msgstr "Datum"
+
+#. Name of the plugin
+msgid "EJO Simple Testimonials"
+msgstr ""
+
+#. Description of the plugin
+msgid "Simple way of adding testimonials to your website"
+msgstr ""
+
+#. URI of the plugin
+msgid "http://github.com/ejoweb/ejo-simple-testimonials"
+msgstr ""
+
+#. Author of the plugin
+msgid "Erik Joling"
+msgstr ""
+
+#. Author URI of the plugin
+msgid "http://www.ejoweb.nl/"
+msgstr ""

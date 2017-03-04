@@ -1,11 +1,13 @@
 <?php
 /**
- * Plugin Name: EJO Simple Testimonials
- * Plugin URI: http://github.com/ejoweb/ejo-simple-testimonials
- * Description: Simple way of adding testimonials to your website
- * Version: 0.5
- * Author: Erik Joling
- * Author URI: http://www.ejoweb.nl/
+ * Plugin Name:     EJO Simple Testimonials
+ * Plugin URI:      http://github.com/ejoweb/ejo-simple-testimonials
+ * Description:     Simple way of adding testimonials to your website
+ * Version:         0.5
+ * Author:          Erik Joling
+ * Author URI:      http://www.ejoweb.nl/
+ * Text Domain:     ejo-simple-testimonials
+ * Domain Path:     /languages
  *
  * GitHub Plugin URI: http://github.com/EJOweb/ejo-simple-testimonials
  * GitHub Branch:     basiswebsite
@@ -22,8 +24,11 @@ final class EJO_Simple_Testimonials
     //* Holds the instance of this class.
     private static $_instance = null;
 
+    //* Store the unique identifier of this plugin
+    public static $id = 'ejo-simple-testimonials';
+
     //* Store the slug of this plugin
-    public static $slug = 'ejo-simple-testimonials';
+    public static $slug;
 
     //* Stores the directory path for this plugin.
     public static $dir;
@@ -61,9 +66,13 @@ final class EJO_Simple_Testimonials
     //* Setup
     private static function setup() 
     {
-        //* Path & Url
+        //* Setup main variables
         self::$dir = plugin_dir_path( __FILE__ );
         self::$uri = plugin_dir_url(  __FILE__ );
+        self::$slug = self::$id; 
+
+        /* Load the translation for the plugin */
+        load_plugin_textdomain( 'ejo-simple-testimonials', false, self::$slug . '/languages' );
     }
 
     //* Includes
