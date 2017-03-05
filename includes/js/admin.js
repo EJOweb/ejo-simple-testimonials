@@ -6,6 +6,7 @@ jQuery(document).ready(function($){
      //* Set testimonialnumber to pass on to inserted testimonial 
     // var new_testimonial_number = $( ".testimonials-table tbody tr" ).length;
     var new_testimonial_number;
+    var testimonial_count;
 
     //* Add testimonial
     $( ".add_testimonial" ).on('click', function(e) {
@@ -15,12 +16,18 @@ jQuery(document).ready(function($){
         //* Calculate new testimonial number
         new_testimonial_number = get_new_testimonial_number();
 
+        testimonial_count = get_testimonial_count();
+
         //* Prepare the clone
-        process_clone_number();      
+        process_clone_number();
 
-        //* Cloning action!
-        clone_the_testimonial_clone();
-
+        if (testimonial_count >= 10) {
+            alert("No more than 10 testimonials are allowed. After all, it's supposed to be a *simple* plugin ;)");
+        }
+        else {
+            //* Cloning action!
+            clone_the_testimonial_clone();
+        }
     });
 
     //* Calculate new clone number
@@ -37,6 +44,13 @@ jQuery(document).ready(function($){
 
         return highest_id;
     }
+
+    //* Calculate amount of testimonials
+    function get_testimonial_count()
+    {
+        return $( ".testimonials-table tr.testimonial" ).length;
+    }
+
 
     function process_clone_number() {
         $(".clone .id").text(new_testimonial_number);
