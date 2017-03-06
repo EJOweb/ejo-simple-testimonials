@@ -16,11 +16,11 @@ jQuery(document).ready(function($){
         //* Calculate new testimonial number
         new_testimonial_number = get_new_testimonial_number();
 
-        testimonial_count = get_testimonial_count();
-
         //* Prepare the clone
         process_clone_number();
 
+        testimonial_count = get_testimonial_count();
+        
         if (testimonial_count >= 10) {
             alert("No more than 10 testimonials are allowed. After all, it's supposed to be a *simple* plugin ;)");
         }

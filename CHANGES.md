@@ -1,3 +1,5 @@
+- Code refactoring
+- Improved sanitization
 - Limited maximum number of testimonials to 10
 - Added new fields and improved backend ui
 - Added language support

@@ -57,14 +57,26 @@ function ejo_save_simple_testimonials($testimonials = array())
 {
 	/* TODO: got to use Nonces */
 
-	/* Save the order of the testimonials (by resetting the keys) */
+	// Save the order despite the array-key numbers (by resetting them)
 	$testimonials = array_values($testimonials);
 
-	/* Debugging */
-	/* ?><pre><?= var_dump($testimonials); ?></pre><?php */
+	// Sanitize
+	// Remove slashes which WordPress adds automatically to all $_POST content
+	$testimonials = stripslashes_deep($testimonials);
 
-	/* Saving */
+	// Sanitize some more
+	foreach ($testimonials as $key => $testimonial) {
+
+		// Sanitize text fields
+		$testimonials[$key]['author_name'] = sanitize_text_field($testimonial['author_name']);
+		$testimonials[$key]['author_info'] = sanitize_text_field($testimonial['author_info']);
+		$testimonials[$key]['review_date'] = sanitize_text_field($testimonial['review_date']);
+	}
+
+	// Saving 
 	update_option( '_ejo_simple_testimonials', $testimonials );
+
+	// Show message
 	echo '<div id="message" class="updated"><p><strong>De testimonials zijn opgeslagen.</strong></p></div>';
 }
 
@@ -107,17 +119,17 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 		<td class="cel-2">
 			<div class="ejo-form-field">
 				<label class="top-label"><?= __('Author name', 'ejo-simple-testimonials'); ?></label>
-				<input type="text" class="testimonial-author-name" name="testimonials[<?php echo $position; ?>][author_name]" value="<?php echo $testimonial['author_name']; ?>" placeholder="<?= __('Author name', 'ejo-simple-testimonials'); ?>">
+				<input type="text" class="testimonial-author-name" name="testimonials[<?php echo $position; ?>][author_name]" value="<?= esc_attr($testimonial['author_name']) ?>" placeholder="<?= __('Author name', 'ejo-simple-testimonials'); ?>">
 			</div>
 			<div class="ejo-form-field">
 				<label class="top-label"><?= __('Author Info', 'ejo-simple-testimonials'); ?></label>
-				<input type="text" class="testimonial-author-info" name="testimonials[<?php echo $position; ?>][author_info]" value="<?php echo $testimonial['author_info']; ?>" placeholder="<?= __('Location, company...', 'ejo-simple-testimonials'); ?>">
+				<input type="text" class="testimonial-author-info" name="testimonials[<?php echo $position; ?>][author_info]" value="<?= esc_attr($testimonial['author_info']) ?>" placeholder="<?= __('Location, company...', 'ejo-simple-testimonials'); ?>">
 			</div>
 		</td>
 		<td class="cel-3">
 			<div class="ejo-form-field">
 				<label class="top-label"><?= __('Testimonial', 'ejo-simple-testimonials'); ?></label>
-				<textarea class="testimonial-review-content" name="testimonials[<?php echo $position; ?>][review_content]" placeholder="<?= __('Testimonial', 'ejo-simple-testimonials'); ?>"><?php echo $testimonial['review_content']; ?></textarea>
+				<textarea class="testimonial-review-content" name="testimonials[<?php echo $position; ?>][review_content]" placeholder="<?= __('Testimonial', 'ejo-simple-testimonials'); ?>"><?= $testimonial['review_content']; ?></textarea>
 			</div>
 		</td>
 		<td class="cel-4">
@@ -134,7 +146,7 @@ function admin_show_simple_testimonial( $position = 0, $testimonial = array() )
 			</div>
 			<div class="ejo-form-field">
 				<label class="top-label"><?= __('Date', 'ejo-simple-testimonials'); ?> (<?= __('dd-mm-yyyy', 'ejo-simple-testimonials'); ?>)</label>
-				<input type="text" class="testimonial-review-date" name="testimonials[<?php echo $position; ?>][review_date]" value="<?php echo $testimonial['review_date']; ?>" placeholder="<?= __('dd-mm-yyyy', 'ejo-simple-testimonials'); ?>">
+				<input type="text" class="testimonial-review-date" name="testimonials[<?php echo $position; ?>][review_date]" value="<?= esc_attr($testimonial['review_date']) ?>" placeholder="<?= __('dd-mm-yyyy', 'ejo-simple-testimonials'); ?>">
 			</div>
 		</td>
 		<td class="cel-5">

@@ -123,7 +123,7 @@ final class EJO_Simple_Testimonials
     }
 
     //* Get testimonials
-    public static function get_testimonials() 
+    public static function get_testimonials()
     {
         //* Get Testimonials
         $testimonials = get_option( '_ejo_simple_testimonials', array() );
