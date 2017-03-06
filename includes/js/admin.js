@@ -51,12 +51,15 @@ jQuery(document).ready(function($){
         return $( ".testimonials-table tr.testimonial" ).length;
     }
 
-
+    // Integrate new testimonial numbers in name attribute of form-fields
     function process_clone_number() {
         $(".clone .id").text(new_testimonial_number);
-        $(".clone .testimonial-title").attr("name", "testimonials[" + new_testimonial_number + "][title]");
-        $(".clone .testimonial-content").attr("name", "testimonials[" + new_testimonial_number + "][content]");
-        $(".clone .testimonial-caption").attr("name", "testimonials[" + new_testimonial_number + "][caption]");
+        $(".clone .testimonial-author-name").attr("name", "testimonials[" + new_testimonial_number + "][author_name]");
+        $(".clone .testimonial-author-info").attr("name", "testimonials[" + new_testimonial_number + "][author_info]");
+        $(".clone .testimonial-author-image").attr("name", "testimonials[" + new_testimonial_number + "][author_image]");
+        $(".clone .testimonial-review-content").attr("name", "testimonials[" + new_testimonial_number + "][review_content]");
+        $(".clone .testimonial-review-rating").attr("name", "testimonials[" + new_testimonial_number + "][review_rating]");
+        $(".clone .testimonial-review-date").attr("name", "testimonials[" + new_testimonial_number + "][review_date]");
     }
 
     function clone_the_testimonial_clone() {
