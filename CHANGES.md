@@ -1,3 +1,4 @@
+- Added filterable stars to the testimonial
 - Created `the_testimonial($testimonial)` function
 - Code refactoring
 - Improved sanitization

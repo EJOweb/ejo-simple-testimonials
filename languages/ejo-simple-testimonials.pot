@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-04 12:05+0000\n"
+"POT-Creation-Date: 2017-03-06 19:28+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,28 +14,64 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco - https://localise.biz/"
 
-#: includes/admin-page.php:109 includes/admin-page.php:110
+#: includes/admin-page.php:121 includes/admin-page.php:122
 msgid "Author name"
 msgstr ""
 
-#: includes/admin-page.php:113
-msgid "Extra Info"
+#: includes/admin-page.php:125
+msgid "Author Info"
 msgstr ""
 
-#: includes/admin-page.php:114
+#: includes/admin-page.php:126
 msgid "Location, company..."
 msgstr ""
 
-#: includes/admin-page.php:119 includes/admin-page.php:120
+#: includes/admin-page.php:131 includes/admin-page.php:132
 msgid "Testimonial"
 msgstr ""
 
-#: includes/admin-page.php:123
+#: includes/admin-page.php:137
 msgid "Rating"
 msgstr ""
 
-#: includes/admin-page.php:127 includes/admin-page.php:128
+#: includes/admin-page.php:139
+msgid "No rating"
+msgstr ""
+
+#: includes/admin-page.php:140
+msgid "One star"
+msgstr ""
+
+#: includes/admin-page.php:141
+msgid "Two stars"
+msgstr ""
+
+#: includes/admin-page.php:142
+msgid "Three stars"
+msgstr ""
+
+#: includes/admin-page.php:143
+msgid "Four stars"
+msgstr ""
+
+#: includes/admin-page.php:144
+msgid "Five stars"
+msgstr ""
+
+#: includes/admin-page.php:148
 msgid "Date"
+msgstr ""
+
+#: includes/admin-page.php:148 includes/admin-page.php:149
+msgid "dd-mm-yyyy"
+msgstr ""
+
+#: includes/class-widget.php:15
+msgid "Simple Testimonials"
+msgstr ""
+
+#: includes/class-widget.php:19
+msgid "Shows a random testimonial"
 msgstr ""
 
 #. Name of the plugin

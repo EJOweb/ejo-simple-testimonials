@@ -100,16 +100,21 @@ final class EJO_Simple_Testimonials
         return $testimonials;
     }
 
-   public static function the_testimonial($testimonial, $char_limit = '0')
+    /**
+     * Output the testimonial in MicroData format based on schema.org
+     * 
+     * Validation: https://search.google.com/structured-data/testing-tool/u/0/
+     */
+    public static function the_testimonial($testimonial, $char_limit = '0')
     {
         ?>
         <div class="testimonial" itemscope itemtype="http://schema.org/Review">
 
-            <div style="display: none" itemprop="itemReviewed" itemscope itemtype="http://schema.org/Organization">
-                <span itemprop="name"><?= get_bloginfo('name'); ?></span>
+            <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Organization">
+                <meta itemprop="name" content="<?= get_bloginfo('name'); ?>">
             </div>
 
-            <?php if ( '' != $testimonial['author_name'] ) : ?>
+            <?php if ( $testimonial['author_name'] != '' ) : ?>
 
                 <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
                     <h4 class="author-name" itemprop="name"><?= $testimonial['author_name']; ?></h4>
@@ -123,27 +128,37 @@ final class EJO_Simple_Testimonials
 
             <?php endif; ?>
             
-            <?php if ( '' != $testimonial['review_rating'] ) : ?>
+            <?php if ( $testimonial['review_rating'] > 0 ) : ?>
+
+                <?php 
+                $stars = '<div class="stars">';
+
+                for( $i=1; $i<=$testimonial['review_rating']; $i++ ) :
+                    $stars .= '<span class="star">&#9733;</span>';
+                endfor;
+
+                $stars .= '</div>';
+                $stars = apply_filters( 'ejo_simple_testimonials_star', $stars );
+                ?>
 
                 <div class="review-rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
-                    <span itemprop="ratingValue"><?= $testimonial['review_rating']; ?></span>
+                    <meta itemprop="ratingValue" content="<?= $testimonial['review_rating']; ?>">
+                    <?= $stars; ?>
                 </div>
 
             <?php endif; ?>
 
-            <?php if ( '' != $testimonial['review_content'] ) : ?>
+            <?php if ( $testimonial['review_content'] != '' ) : ?>
 
                 <?php 
                 $testimonial['review_content'] = EJO_Simple_Testimonials::process_character_limit($testimonial['review_content'], $char_limit); 
                 ?>
 
-                <div class="review-content">
-                    <blockquote class="" itemprop="reviewBody"><?= $testimonial['review_content']; ?></blockquote>
-                </div>
+                <blockquote class="review-content" itemprop="reviewBody"><?= $testimonial['review_content']; ?></blockquote>
 
             <?php endif; ?>
 
-            <?php if ( '' != $testimonial['review_date'] ) : ?>
+            <?php if ( $testimonial['review_date'] != '' ) : ?>
 
                 <span class="">
                     <meta itemprop="datePublished" content="<?= $testimonial['review_date']; ?>">

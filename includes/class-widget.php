@@ -12,11 +12,11 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 	//* Constructor. Set the default widget options and create widget.
 	function __construct() 
 	{
-		$widget_title = __( 'Simple Testimonials', EJO_Simple_Testimonials::$slug );
+		$widget_title = __( 'Simple Testimonials', 'ejo-simple-testimonials' );
 
 		$widget_ops = array(
 			'classname'   => 'simple-testimonials',
-			'description' => __( 'Shows a random testimonial', EJO_Simple_Testimonials::$slug ),
+			'description' => __( 'Shows a random testimonial', 'ejo-simple-testimonials' ),
 		);
 
 		$control_ops = array(
