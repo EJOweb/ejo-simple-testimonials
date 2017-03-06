@@ -57,10 +57,10 @@ final class EJO_Simple_Testimonials
         EJO_Simple_Testimonials_Admin::instance();
 
         //* Widget
-        add_action( 'widgets_init', array( $this, 'manage_widgets' ) );
+        add_action( 'widgets_init', array( 'EJO_Simple_Testimonials', 'manage_widgets' ) );
 
         //* Add shortcode
-        add_shortcode( 'simple_testimonials', array( $this, 'testimonials_shortcode' ) );
+        add_shortcode( 'simple_testimonials', array( 'EJO_Simple_Testimonials', 'testimonials_shortcode' ) );
    }
 
     //* Setup
@@ -86,40 +86,9 @@ final class EJO_Simple_Testimonials
     }
 
     //* Manage this plugins widgets
-    public function manage_widgets() 
+    public static function manage_widgets() 
     { 
         register_widget( 'EJO_Simple_Testimonials_Widget' ); 
-    }
-
-    //* Show testimonials
-    public static function get_testimonials_output() 
-    {
-        //* Get testimonials
-		$testimonials = self::get_testimonials();
-
-        //* Abort if no testimonials available
-        if (empty($testimonials))
-            return 'No testimonials available';
-
-        $output = '';
-        $output .= '<div class="testimonials-container">';
-        foreach ($testimonials as $testimonial) {
-
-            $output .= '<article class="testimonial">';
-
-            if (!empty($testimonial['title']))
-                $output .= '<h2 class="testimonial-title">' . stripslashes($testimonial['title']) . '</h2>';
-
-            if (!empty($testimonial['caption']))
-                $output .= '<p class="testimonial-caption">' . stripslashes($testimonial['caption']) . '</p>';
-
-            $output .= '<blockquote class="testimonial-quote">' . stripslashes($testimonial['content']) . '</blockquote>';
-
-            $output .= '</article>';
-        }
-        $output .= '</div>';
-
-        return $output;
     }
 
     //* Get testimonials
@@ -131,13 +100,110 @@ final class EJO_Simple_Testimonials
         return $testimonials;
     }
 
-    // Shortcode Function to show testimonials
-	public static function testimonials_shortcode() 
-	{
-		$output = self::get_testimonials_output();
+   public static function the_testimonial($testimonial, $char_limit = '0')
+    {
+        ?>
+        <div class="testimonial" itemscope itemtype="http://schema.org/Review">
 
-		return $output;
-	}
+            <div style="display: none" itemprop="itemReviewed" itemscope itemtype="http://schema.org/Organization">
+                <span itemprop="name"><?= get_bloginfo('name'); ?></span>
+            </div>
+
+            <?php if ( '' != $testimonial['author_name'] ) : ?>
+
+                <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                    <h4 class="author-name" itemprop="name"><?= $testimonial['author_name']; ?></h4>
+
+                    <?php if ( '' != $testimonial['author_info'] ) : ?>
+
+                        <span class="author-info"><?= $testimonial['author_info']; ?></span>
+
+                    <?php endif; ?>
+                </div>
+
+            <?php endif; ?>
+            
+            <?php if ( '' != $testimonial['review_rating'] ) : ?>
+
+                <div class="review-rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+                    <span itemprop="ratingValue"><?= $testimonial['review_rating']; ?></span>
+                </div>
+
+            <?php endif; ?>
+
+            <?php if ( '' != $testimonial['review_content'] ) : ?>
+
+                <?php 
+                $testimonial['review_content'] = EJO_Simple_Testimonials::process_character_limit($testimonial['review_content'], $char_limit); 
+                ?>
+
+                <div class="review-content">
+                    <blockquote class="" itemprop="reviewBody"><?= $testimonial['review_content']; ?></blockquote>
+                </div>
+
+            <?php endif; ?>
+
+            <?php if ( '' != $testimonial['review_date'] ) : ?>
+
+                <span class="">
+                    <meta itemprop="datePublished" content="<?= $testimonial['review_date']; ?>">
+                    <?= date_i18n( get_option( 'date_format' ), strtotime( $testimonial['review_date'] ) ); ?>
+                </span>
+
+            <?php endif; ?>
+
+        </div>
+        <?php
+    }
+
+    public static function process_character_limit($content, $char_limit = '0')
+    {
+        //* Limit number of characters
+        if ( $char_limit > 0 ) {
+
+            if ( strlen($content) > $char_limit ) {
+                $content = substr($content, 0, $char_limit) . '...';
+            }
+        }
+
+        return $content;
+    }
+
+    //* Show testimonials
+    public static function testimonials_shortcode() 
+    {
+        //* Get testimonials
+        $testimonials = self::get_testimonials();
+
+        ob_start(); 
+        ?>
+
+        <ul class="testimonials">
+
+            <?php if ( !empty($testimonials) ) : ?>
+
+                <?php foreach ($testimonials as $testimonial) : //* Loop through testimonials ?>
+
+                    <li>
+                        <?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
+                    </li>
+
+                <?php endforeach; ?>
+                
+            <?php else : ?>
+            
+                <li>No testimonials available</li>
+            
+            <?php endif; ?>
+
+        </ul>
+
+        <?php  
+        $output = ob_get_contents();
+        ob_end_clean();
+
+        return $output;
+    }
 }
 
 EJO_Simple_Testimonials::instance();

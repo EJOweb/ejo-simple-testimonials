@@ -72,7 +72,6 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		// Disable button when there isn't a linked page, otherwise leave the same
 		$instance['button_show'] = ( '' == $instance['button_linked_page'] ) ? FALSE : $instance['button_show'];
 
-
 		echo $args['before_widget'];
 
 		if ( $instance['title'] ) {
@@ -105,49 +104,32 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 		<?php endif; // End carousel check ?>
 
-		<div class="testimonials-wrap">
-			<ul class="testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
+		<ul class="testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
 
-				<?php if ( !$testimonials ) : ?>
-					<li>No testimonials available</li>
-					
-					<?php return; ?>
-				<?php endif; ?>
-				
+			<?php if ( !empty($testimonials) ) : ?>
+
 				<?php foreach ($testimonials as $testimonial) : //* Loop through testimonials ?>
 
-					<li class="testimonial">
-
-						<?php if ( '' != $testimonial['author_name'] ) : ?>
-							<h4><?= $testimonial['author_name'] ?></h4>
-						<?php endif; ?>
-
-						<?php if ( '' != $testimonial['author_info'] ) : ?>
-						<?php endif; ?>
-							
-						<?php if ( '' != $testimonial['review_content'] ) : ?>
-
-							<?php 
-							$testimonial['review_content'] = $this->process_character_limit($testimonial['review_content'], $instance['char_limit']); 
-							?>
-							<div class=""><blockquote class=""><?= $testimonial['review_content']; ?></blockquote></div>
-
-						<?php endif; ?>
-
+					<li> 
+						<?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
 					</li>
 
 				<?php endforeach; ?>
 
-			</ul>
+			<?php else : ?>
+
+				<li>No testimonials available</li>
+				
+			<?php endif; ?>
+			
+		</ul>
 
 		<?php if ($instance['button_show']) : ?>
 
-			<a href="<?php echo get_the_permalink($instance['button_linked_page']); ?>" class="button"><?php echo $instance['button_link_text']; ?></a>
+			<a href="<?= get_the_permalink($instance['button_linked_page']); ?>" class="button"><?= $instance['button_link_text']; ?></a>
 
 		<?php endif; // Show button ?>
 		
-		</div>
-
 		<?php echo $args['after_widget'];
 	}
 
@@ -170,8 +152,8 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>">Title:</label>
-			<input type="text" class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?= $this->get_field_name('title'); ?>" value="<?= esc_attr($instance['title']); ?>" />
+			<label for="<?= $this->get_field_id('title'); ?>">Title:</label>
+			<input type="text" class="widefat" id="<?= $this->get_field_id('title'); ?>" name="<?= $this->get_field_name('title'); ?>" value="<?= esc_attr($instance['title']); ?>" />
 		</p>
 		<p>
 			<strong>Carousel</strong>
@@ -254,19 +236,6 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 			$selected = selected($field_value, $page->ID, false);
 			echo "<option value='".$page->ID."' ".$selected.">".$page->post_title."</option>";
 		}
-	}
-
-	public function process_character_limit($content, $char_limit = '0')
-	{
-		//* Limit number of characters
-		if ( $char_limit > 0 ) {
-
-			if ( strlen($content) > $char_limit ) {
-				$content = substr($content, 0, $char_limit) . '...';
-			}
-		}
-
-		return $content;
 	}
 }
 ?>

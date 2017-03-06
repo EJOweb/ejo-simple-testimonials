@@ -1,3 +1,4 @@
+- Created `the_testimonial($testimonial)` function
 - Code refactoring
 - Improved sanitization
 - Limited maximum number of testimonials to 10
