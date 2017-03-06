@@ -178,25 +178,23 @@ final class EJO_Simple_Testimonials
         ob_start(); 
         ?>
 
-        <ul class="testimonials">
+        <div class="testimonials">
 
             <?php if ( !empty($testimonials) ) : ?>
 
                 <?php foreach ($testimonials as $testimonial) : //* Loop through testimonials ?>
 
-                    <li>
-                        <?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
-                    </li>
+                    <?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
 
                 <?php endforeach; ?>
                 
             <?php else : ?>
             
-                <li>No testimonials available</li>
+                <p>No testimonials available</p>
             
             <?php endif; ?>
 
-        </ul>
+        </div>
 
         <?php  
         $output = ob_get_contents();

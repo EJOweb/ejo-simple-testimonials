@@ -104,25 +104,23 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 		<?php endif; // End carousel check ?>
 
-		<ul class="testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
+		<div class="testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
 
 			<?php if ( !empty($testimonials) ) : ?>
 
 				<?php foreach ($testimonials as $testimonial) : //* Loop through testimonials ?>
 
-					<li> 
-						<?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
-					</li>
+					<?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
 
 				<?php endforeach; ?>
 
 			<?php else : ?>
 
-				<li>No testimonials available</li>
+				<p>No testimonials available</p>
 				
 			<?php endif; ?>
 			
-		</ul>
+		</div>
 
 		<?php if ($instance['button_show']) : ?>
 
