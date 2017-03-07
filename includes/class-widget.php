@@ -110,7 +110,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 				<?php foreach ($testimonials as $testimonial) : //* Loop through testimonials ?>
 
-					<?php EJO_Simple_Testimonials::the_testimonial($testimonial); ?>
+					<?php EJO_Simple_Testimonials::the_testimonial($testimonial, $instance['char_limit']); ?>
 
 				<?php endforeach; ?>
 

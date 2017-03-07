@@ -1,3 +1,5 @@
+- Fixed bug with charact-limit in widget
+
 0.6
 - Changed class-naming to simple-testimonials and simple-testimonial in output
 - Added filterable stars to the testimonial
