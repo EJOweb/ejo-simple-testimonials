@@ -170,6 +170,11 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 				<option value="3" <?php selected( $instance['max_number'], '3' ); ?> >3</option>
 				<option value="4" <?php selected( $instance['max_number'], '4' ); ?> >4</option>
 				<option value="5" <?php selected( $instance['max_number'], '5' ); ?> >5</option>
+				<option value="6" <?php selected( $instance['max_number'], '6' ); ?> >6</option>
+				<option value="7" <?php selected( $instance['max_number'], '7' ); ?> >7</option>
+				<option value="8" <?php selected( $instance['max_number'], '8' ); ?> >8</option>
+				<option value="9" <?php selected( $instance['max_number'], '9' ); ?> >9</option>
+				<option value="10" <?php selected( $instance['max_number'], '10' ); ?> >10</option>
 			</select>
 		</p>
 		<p>
