@@ -15,15 +15,15 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 		$widget_title = __( 'Simple Testimonials', 'ejo-simple-testimonials' );
 
 		$widget_ops = array(
-			'classname'   => 'simple-testimonials',
+			'classname'   => 'simple-testimonials-widget',
 			'description' => __( 'Shows a random testimonial', 'ejo-simple-testimonials' ),
 		);
 
 		$control_ops = array(
-			'id_base' => 'ejo-simple-testimonials-widget'
+			'id_base' => 'simple-testimonials-widget'
 		);
 
-		parent::__construct( 'ejo-simple-testimonials-widget', $widget_title, $widget_ops, $control_ops );
+		parent::__construct( 'simple-testimonials-widget', $widget_title, $widget_ops, $control_ops );
 	}
 
 	//* Echo the widget content.
@@ -87,13 +87,13 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 					/*------------------------------------------------------------------
 					Testimonial caroussel
 					-------------------------------------------------------------------*/
-					$('.testimonials.carousel .testimonial:gt(0)').hide();
+					$('.simple-testimonials.carousel .simple-testimonial:gt(0)').hide();
 					
 					setInterval(
 						function(){
-							$('.testimonials.carousel .testimonial:first-child').fadeOut( 600, function() {
-								$(this).next('.testimonial').fadeIn( 600 );
-								$(this).appendTo('.testimonials.carousel');
+							$('.simple-testimonials.carousel .simple-testimonial:first-child').fadeOut( 600, function() {
+								$(this).next('.simple-testimonial').fadeIn( 600 );
+								$(this).appendTo('.simple-testimonials.carousel');
 							}).end();
 						},
 						5000
@@ -104,7 +104,7 @@ class EJO_Simple_Testimonials_Widget extends WP_Widget {
 
 		<?php endif; // End carousel check ?>
 
-		<div class="testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
+		<div class="simple-testimonials <?php if ($instance['carousel']) { echo 'carousel'; } ?>">
 
 			<?php if ( !empty($testimonials) ) : ?>
 

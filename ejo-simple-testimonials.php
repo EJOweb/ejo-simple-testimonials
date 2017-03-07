@@ -108,7 +108,7 @@ final class EJO_Simple_Testimonials
     public static function the_testimonial($testimonial, $char_limit = '0')
     {
         ?>
-        <div class="testimonial" itemscope itemtype="http://schema.org/Review">
+        <div class="simple-testimonial" itemscope itemtype="http://schema.org/Review">
 
             <div itemprop="itemReviewed" itemscope itemtype="http://schema.org/Organization">
                 <meta itemprop="name" content="<?= get_bloginfo('name'); ?>">
@@ -160,10 +160,10 @@ final class EJO_Simple_Testimonials
 
             <?php if ( $testimonial['review_date'] != '' ) : ?>
 
-                <span class="">
+                <div class="review-date">
                     <meta itemprop="datePublished" content="<?= $testimonial['review_date']; ?>">
                     <?= date_i18n( get_option( 'date_format' ), strtotime( $testimonial['review_date'] ) ); ?>
-                </span>
+                </div>
 
             <?php endif; ?>
 
@@ -193,7 +193,7 @@ final class EJO_Simple_Testimonials
         ob_start(); 
         ?>
 
-        <div class="testimonials">
+        <div class="simple-testimonials">
 
             <?php if ( !empty($testimonials) ) : ?>
 

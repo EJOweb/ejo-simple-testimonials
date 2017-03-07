@@ -1,4 +1,5 @@
 0.6
+- Changed class-naming to simple-testimonials and simple-testimonial in output
 - Added filterable stars to the testimonial
 - Created `the_testimonial($testimonial)` function
 - Code refactoring
