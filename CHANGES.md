@@ -1,3 +1,4 @@
+0.6.1
 - Fixed bug with charact-limit in widget
 
 0.6
