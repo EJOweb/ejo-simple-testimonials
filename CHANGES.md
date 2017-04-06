@@ -1,3 +1,5 @@
+- Added support for testimonials aggregate
+
 0.6.1
 - Fixed bug with charact-limit in widget
 

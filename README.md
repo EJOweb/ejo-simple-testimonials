@@ -3,7 +3,6 @@
 Easily manage your testimonials and show them on your website using widget or shortcode.
 
 ## To do
-- Divide into two widgets: Simple Testimonial and Simple Testimonial Carousel or something
 - Will the limit of 10 testimonials be a problem for companies?
   - The goal is simple testimonials. 10 should be enough. 
 - Author Image
@@ -12,3 +11,15 @@ Easily manage your testimonials and show them on your website using widget or sh
 - Add setting to change itemReviewed name. Currently it's the Site Title.
 - Consider to change itemReviewed type from Organization to LocalBusiness
   - Then Google forces to also use image and advices address, priceRange and telephone
+
+### Localbusiness built in or built around?
+Should it be like:
+- LocalBusiness
+  - Business-info
+  - AggregateRating
+
+or
+- AggregateRating
+  - itemReviewed: localBusiness
+    - Business-info
+

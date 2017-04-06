@@ -3,25 +3,62 @@
 
 	<?php
 		if ( isset($_POST['submit']) ) {
-			ejo_save_simple_testimonials($_POST['testimonials']);
+			ejo_save_simple_testimonials($_POST['testimonials'], $_POST['testimonials-subject']);
 		}
 
+		// Get Testimonials
 		$testimonials = get_option( '_ejo_simple_testimonials' );
 		$testimonials = (!empty($testimonials)) ? $testimonials : array();
+
+		// Get Testimonials Aggregate
+		$testimonials_aggregate_defaults = array(
+			'rating_value'	=> 0,
+			'rating_count'	=> 0,
+		);
+		$testimonials_aggregate = get_option( '_ejo_simple_testimonials_aggregate' );
+		$testimonials_aggregate = wp_parse_args( $testimonials_aggregate, $testimonials_aggregate_defaults );
+
+		// Get Testimonials Subject
+		$testimonials_subject_defaults = array(
+			'type' => 'localbusiness',
+			'name' => 'Company Name',
+			'page_id' => 10
+		);
+		$testimonials_subject = get_option( '_ejo_simple_testimonials_subject' );
+		$testimonials_subject = wp_parse_args( $testimonials_subject, $testimonials_subject_defaults );
 	?>
 
-	<!-- Referentie Clone -->
-	<table style="display:none;">
-		<tbody>
-			<?php admin_show_simple_testimonial(); ?>
-		</tbody>
-	</table>
+	<pre><?= var_dump($testimonials); ?></pre>
+	<pre><?= var_dump($testimonials_aggregate); ?></pre>
+	<pre><?= var_dump($testimonials_subject); ?></pre>
 
 	<form action="admin.php?page=<?php echo EJO_Simple_Testimonials::$slug; ?>" method="post">
-		<p>
-			<?php submit_button( 'Wijzigingen opslaan', 'primary', 'submit', false ); ?>
-			<a href="javascript:void(0)" class="button add_testimonial">Referentie toevoegen</a>
-		</p>
+			
+		<table class="form-table wp-list-table widefat testimonials-subject">
+			<tbody>
+				<tr>
+					<td>
+						<label class="top-label"><?= __('Company name', 'ejo-simple-testimonials'); ?></label>
+						<input type="text" class="testimonials-subject-name" name="testimonials-subject[name]" value="<?= esc_attr($testimonials_subject['name']) ?>" placeholder="<?= __('Company name', 'ejo-simple-testimonials'); ?>">
+					</td>
+					<td>
+						<label class="top-label"><?= __('Page', 'ejo-simple-testimonials'); ?></label>
+						<select name="testimonials-subject[page_id]" class="widefat">
+							<?php EJO_Simple_Testimonials::page_select_options($testimonials_subject['page_id']); ?>
+						</select>
+						<span class="description"><?= __('What page defines the company\'s main page?', 'ejo-simple-testimonials'); ?></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="testimonials-aggregate">
+
+		</div>
+
+
+
+		<hr/>
 
 		<table class="form-table wp-list-table widefat testimonials-table">
 			<tbody>
@@ -32,11 +69,24 @@
 ?>
 			</tbody>
 		</table>
+
 		<p>
-			<?php submit_button( 'Wijzigingen opslaan', 'primary', 'submit', false ); ?>
 			<a href="javascript:void(0)" class="button add_testimonial">Referentie toevoegen</a>
 		</p>
+
+		<hr/>
+
+		<p>
+			<?php submit_button( 'Wijzigingen opslaan', 'primary', 'submit', false ); ?>
+		</p>
 	</form>
+
+	<!-- Referentie Clone -->
+	<table style="display:none;">
+		<tbody>
+			<?php admin_show_simple_testimonial(); ?>
+		</tbody>
+	</table>
 
 	<hr/>
 	<h2 class="title">Extra informatie</h2>
@@ -53,7 +103,7 @@
  * @param: array with testimonials
  * @return: none
  */
-function ejo_save_simple_testimonials($testimonials = array())
+function ejo_save_simple_testimonials($testimonials = array(), $testimonials_subject = array())
 {
 	/* TODO: got to use Nonces */
 
@@ -73,8 +123,41 @@ function ejo_save_simple_testimonials($testimonials = array())
 		$testimonials[$key]['review_date'] = sanitize_text_field($testimonial['review_date']);
 	}
 
+	/**
+	 * Process testimonials aggregate
+	 */
+	$testimonials_aggregate_rating_sum = 0;
+	$testimonials_aggregate_rating = 0;
+	$testimonials_aggregate_count = 0;
+	foreach ($testimonials as $testimonial) {
+		if ($testimonial['review_rating'] > 0) {
+			$testimonials_aggregate_rating_sum += $testimonial['review_rating'];
+			$testimonials_aggregate_count++;
+		}
+	}
+	if ($testimonials_aggregate_count > 0) {
+		$testimonials_aggregate_rating = $testimonials_aggregate_rating_sum / $testimonials_aggregate_count;
+		$testimonials_aggregate_rating = round($testimonials_aggregate_rating, 1);		
+	}
+	
+	$testimonials_aggregate = array(
+		'rating_value' => $testimonials_aggregate_rating,
+		'rating_count' => $testimonials_aggregate_count
+	);
+
+	/**
+	 * Process testimonials aggregate
+	 */
+	$testimonials_subject = array(
+		'type' => sanitize_text_field('localbusiness'),
+		'name' => sanitize_text_field($testimonials_subject['name']),
+		'page_id' => $testimonials_subject['page_id']
+	);
+
 	// Saving 
 	update_option( '_ejo_simple_testimonials', $testimonials );
+	update_option( '_ejo_simple_testimonials_aggregate', $testimonials_aggregate );
+	update_option( '_ejo_simple_testimonials_subject', $testimonials_subject );
 
 	// Show message
 	echo '<div id="message" class="updated"><p><strong>De testimonials zijn opgeslagen.</strong></p></div>';

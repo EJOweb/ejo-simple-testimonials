@@ -78,8 +78,9 @@ final class EJO_Simple_Testimonials
     //* Includes
     private static function includes() 
     {
-        //* Widget class
-        include_once( self::$dir . 'includes/class-widget.php' );
+        //* Widget classes
+        include_once( self::$dir . 'includes/class-widget-testimonials.php' );
+        include_once( self::$dir . 'includes/class-widget-aggregate.php' );
 
         //* Admin class
         include_once( self::$dir . 'includes/class-admin.php' );
@@ -89,6 +90,7 @@ final class EJO_Simple_Testimonials
     public static function manage_widgets() 
     { 
         register_widget( 'EJO_Simple_Testimonials_Widget' ); 
+        register_widget( 'EJO_Simple_Testimonials_Aggregate_Widget' ); 
     }
 
     //* Get testimonials
@@ -130,16 +132,7 @@ final class EJO_Simple_Testimonials
             
             <?php if ( $testimonial['review_rating'] > 0 ) : ?>
 
-                <?php 
-                $stars = '<div class="stars">';
-
-                for( $i=1; $i<=$testimonial['review_rating']; $i++ ) :
-                    $stars .= '<span class="star">&#9733;</span>';
-                endfor;
-
-                $stars .= '</div>';
-                $stars = apply_filters( 'ejo_simple_testimonials_star', $stars );
-                ?>
+                <?php $stars = EJO_Simple_Testimonials::get_stars($testimonial['review_rating']); ?>
 
                 <div class="review-rating" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
                     <meta itemprop="ratingValue" content="<?= $testimonial['review_rating']; ?>">
@@ -151,7 +144,8 @@ final class EJO_Simple_Testimonials
             <?php if ( $testimonial['review_content'] != '' ) : ?>
 
                 <?php 
-                $testimonial['review_content'] = EJO_Simple_Testimonials::process_character_limit($testimonial['review_content'], $char_limit); 
+                $testimonial['review_content'] = EJO_Simple_Testimonials::process_character_limit($testimonial['review_content'], $char_limit);
+                $testimonial['review_content'] = apply_filters( 'the_content', $testimonial['review_content']);
                 ?>
 
                 <blockquote class="review-content" itemprop="reviewBody"><?= $testimonial['review_content']; ?></blockquote>
@@ -216,6 +210,82 @@ final class EJO_Simple_Testimonials
         ob_end_clean();
 
         return $output;
+    }
+
+    //* Show aggregate
+    public static function testimonials_aggregate($show_itemreviewed = true) 
+    {
+        // Get Testimonials Aggregate
+        $testimonials_aggregate_defaults = array(
+            'rating_value'  => 0,
+            'rating_count'  => 0,
+        );
+        $testimonials_aggregate = get_option( '_ejo_simple_testimonials_aggregate' );
+        $testimonials_aggregate = wp_parse_args( $testimonials_aggregate, $testimonials_aggregate_defaults );
+
+        // Get Testimonials Subject
+        $testimonials_subject_defaults = array(
+            'type' => 'localbusiness',
+            'name' => '',
+            'page_id' => 0
+        );
+        $testimonials_subject = get_option( '_ejo_simple_testimonials_subject' );
+        $testimonials_subject = wp_parse_args( $testimonials_subject, $testimonials_subject_defaults );
+        $testimonials_subject_url = get_permalink($testimonials_subject['page_id']);
+
+        // Get Stars
+        $stars = EJO_Simple_Testimonials::get_stars($testimonials_aggregate['rating_value']);
+        
+        ?>
+        <div class="simple-testimonials-aggregate" itemscope itemtype="http://schema.org/AggregateRating">
+
+            <?php if ($show_itemreviewed) : ?>
+
+                <span itemprop="itemReviewed" itemscope itemtype="http://schema.org/Organization">
+                    <meta itemprop="name" content="<?= $testimonials_subject['name']; ?>">
+
+                    <?php if ($testimonials_subject_url) : ?>
+                        <meta itemprop="url" content="<?= get_permalink($testimonials_subject['page_id']); ?>">
+                    <?php endif; // END check for url ?>
+
+                </span>
+
+            <?php endif; // END show itemreviewed check ?>
+
+            <?= $stars; ?>
+            
+            <p class="description"><span itemprop="ratingValue"><?= $testimonials_aggregate['rating_value']; ?></span> van de 5 op basis van <span itemprop="reviewCount"><?= $testimonials_aggregate['rating_count']; ?></span> referenties</p>
+            
+        </div>        
+        <?php
+    }
+
+    // Get Stars
+    public static function get_stars($rating) 
+    {
+        // Process stars
+        $stars = '<div class="stars">';
+
+        for( $i=1; $i<=$rating; $i++ ) :
+            $stars .= '<span class="star">&#9733;</span>';
+        endfor;
+
+        $stars .= '</div>';
+        $stars = apply_filters( 'ejo_simple_testimonials_star', $stars );
+
+        return $stars;
+    }
+
+    // Helper: Options for all pages
+    public static function page_select_options($selected_page_id, $all_pages = '')
+    {
+        if (empty($all_pages)) 
+            $all_pages = get_pages();
+
+        foreach ($all_pages as $page) {
+            $selected = selected($selected_page_id, $page->ID, false);
+            echo "<option value='".$page->ID."' ".$selected.">".$page->post_title."</option>";
+        }
     }
 }
 
